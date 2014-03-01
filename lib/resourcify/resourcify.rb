@@ -36,7 +36,11 @@ module Resourcify
             f[:value] = f[:value].to_time if f[:type] == "date"
             records = records.where("#{f[:name]} #{simple_ops[operand]} ?", f[:value])
           elsif operand == :like
-            records = records.where("#{f[:name]} ILIKE ? OR #{f[:name]} LIKE ?", f[:value], f[:value])
+            if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
+              records = records.where("#{f[:name]} ILIKE ?", "%#{f[:value]}%")
+            else
+              records = records.where("#{f[:name]} LIKE ?", "%#{f[:value]}%")
+            end
           elsif operand == :in
             records = records.where("#{f[:name]} IN (?)", f[:value].split(','))
           elsif operand == :notin
