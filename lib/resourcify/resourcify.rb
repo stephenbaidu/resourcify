@@ -14,6 +14,10 @@ module Resourcify
     end
 
     module LocalClassMethods
+      def resourcified?
+        true
+      end
+
       def policy_class
         _p = "#{self.name}Policy" and _p.constantize and return _p
       rescue
@@ -53,10 +57,6 @@ module Resourcify
     end
 
     module LocalInstanceMethods
-      def resourcified?
-        true
-      end
-
       def policy_class
         self.class.policy_class
       end
