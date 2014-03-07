@@ -7,11 +7,11 @@ require "resourcify/version"
 Gem::Specification.new do |s|
   s.name        = "resourcify"
   s.version     = Resourcify::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Resourcify."
-  s.description = "TODO: Description of Resourcify."
+  s.authors     = ["Stephen Baidu"]
+  s.email       = ["stephen@axoninfosystems.com"]
+  s.homepage    = "http://www.baidus.net"
+  s.summary     = "Resourcify gem"
+  s.description = "Resourcify gem"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
