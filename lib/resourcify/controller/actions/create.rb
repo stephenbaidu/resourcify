@@ -1,7 +1,7 @@
 module Controller::Actions
   module Create
     def create
-      @record = _RC.new(safe_params)
+      @record = _RC.new(permitted_params)
 
       authorize @record
 

@@ -3,7 +3,7 @@ module Controller::Actions
     def update
       authorize @record
 
-      if @record.update(safe_params)
+      if @record.update(permitted_params)
         @response_data[:success] = true
         @response_data[:data]    = @record
       else
