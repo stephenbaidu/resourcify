@@ -56,11 +56,9 @@ module Controller
       end
 
       # Only allow a trusted parameter "white list" through.
-      def safe_params
+      def permitted_params
         if self.respond_to? "#{controller_name.singularize}_params", true
           self.send("#{controller_name.singularize}_params")
-        elsif self.respond_to? "permitted_params", true
-          self.send("permitted_params")
         else
           param_key        = _RC.name.split('::').last.singularize.underscore.to_sym
           excluded_fields  = ["id", "created_at", "updated_at"]
