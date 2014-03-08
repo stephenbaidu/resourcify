@@ -8,7 +8,7 @@ module Model
       filters = filters.select { |f| self.column_names.include?(f[:name]) }
 
       filters.each do |f|
-        next if f[:value].empty?
+        next if f[:value].blank?
 
         operand = f[:op].to_s.to_sym
         
