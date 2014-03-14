@@ -5,8 +5,10 @@ module Controller::Actions
 
       recs = policy_scope(_RC.all)
 
-      # apply filter if query is present
-      recs = recs.filter(params[:query]) if params[:query].present?
+      # apply resourcify_filter if present and query param is also present
+      if recs.respond_to? "resourcify_filter" and params[:query].present?
+        recs = recs.resourcify_filter(params[:query])
+      end
 
       recs_total = recs.count
 

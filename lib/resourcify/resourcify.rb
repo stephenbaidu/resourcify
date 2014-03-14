@@ -1,4 +1,4 @@
-require "resourcify/model/filter"
+require "resourcify/model/resourcify_filter"
 require "resourcify/model/policy_class"
 require "resourcify/controller/base"
 require "resourcify/controller/actions/index"
@@ -21,7 +21,7 @@ module Resourcify
         
         if self.ancestors.include?(ActiveRecord::Base)        # models
           # Include filter and tag as filterable?
-          send :extend,  Model::Filter
+          send :extend,  Model::ResourcifyFilter
           def filterable?() true end
 
           # Add policy_class method for pundit
@@ -43,7 +43,7 @@ module Resourcify
           # Set rescue_froms with methods located in base.rb
           rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
           rescue_from Pundit::NotAuthorizedError,   with: :user_not_authorized
-          rescue_from UndefinedError, with: :resource_not_resourcified
+          # rescue_from UndefinedError, with: :resource_not_resourcified
 
           # Include base.rb with before_action filters & rescue_from methods
           send :include, Controller::Base

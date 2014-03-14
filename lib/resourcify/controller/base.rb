@@ -13,18 +13,18 @@ module Controller
           data: { total: 0, rows: [] },
           error: { type: '', errors: {}, messages: [] } 
         }
-        raise Resourcify::UndefinedError unless _RC.respond_to? 'resourcified?'
+        # raise Resourcify::UndefinedError unless _RC.respond_to? 'resourcified?'
       end
    
-      def resource_not_resourcified
-        @response_data[:success] = false
-        @response_data[:error]   = { 
-          type: 'resource_not_resourcified',
-          messages: [ 'Resourcify::UndefinedError. Resource route not defined' ]
-        }
+      # def resource_not_resourcified
+      #   @response_data[:success] = false
+      #   @response_data[:error]   = { 
+      #     type: 'resource_not_resourcified',
+      #     messages: [ 'Resourcify::UndefinedError. Resource route not defined' ]
+      #   }
         
-        render json: @response_data
-      end
+      #   render json: @response_data
+      # end
    
       def record_not_found
         @response_data[:success] = false
