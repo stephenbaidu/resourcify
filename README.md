@@ -104,7 +104,7 @@ Post.resourcify_filter("title::eq::My First Post")
 User.resourcify_filter("first_name::like::Jo")
 
 # The following parameters are allowed:
-# [eq(=), lt(<), gt(>), lte(<=), gte(>=), in(IN [items]), nin(NOT IN [items])]
+# [eq(=), ne(!=), like(LIKE), lt(<), gt(>), lte(<=), gte(>=), in(IN [items]), nin(NOT IN [items])]
 User.resourcify_filter("first_name::like::Jo;;last_name::eq::Doe")
 User.resourcify_filter("age::gt::37")
 User.resourcify_filter("age::gte::21;;age::lte::35")
