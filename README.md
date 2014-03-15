@@ -1,4 +1,4 @@
-# Resourcify
+# Resourcify [![Gem Version](https://badge.fury.io/rb/resourcify.png)](http://badge.fury.io/rb/resourcify)
 
 Resourcify is a rails gem that helps to speed up development by giving you json api controllers that inherit all restful actions. It also makes your models easier to filter by adding a "resourcify_filter" method. This gem behaves as an "acts_as" gem by using ActiveSupport Concerns.
 
