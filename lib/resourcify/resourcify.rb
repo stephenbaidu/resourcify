@@ -1,5 +1,6 @@
 require "resourcify/model/resourcify_filter"
 require "resourcify/model/policy_class"
+require "resourcify/model/tpl"
 require "resourcify/controller/base"
 require "resourcify/controller/actions/index"
 require "resourcify/controller/actions/create"
@@ -26,6 +27,9 @@ module Resourcify
 
           # Add policy_class method for pundit
           send :extend,  Model::PolicyClass
+
+          # Add tpl methods
+          send :extend,  Model::Tpl
 
           # Include instance methods
           send :include, ModelInstanceMethods
