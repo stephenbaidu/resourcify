@@ -35,7 +35,7 @@ module Model
             lookups[:parent] = association.klass.all
             lookups[:parent].unshift(association.klass.new(id: nil, name: 'N/A'))
           else
-            lookups[association.name.to_sym] = association.klass.all
+            lookups[association.name.to_sym] = association.klass.all.map { |e| {id: e.id, name: e.name} }
           end
         end
 
