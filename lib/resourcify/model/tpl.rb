@@ -30,13 +30,12 @@ module Model
         end
 
         lookups = {}
-        associations = model_class.reflect_on_all_associations(:belongs_to).map { |a| a.name }
-        associations.each do |assoc|
-          if assoc.to_s == "parent"
-            lookups[:parent] = model_class.all
-            lookups[:parent].unshift(model_class.new(id: nil, name: 'N/A'))
+        model_class.reflect_on_all_associations(:belongs_to).each do |association|
+          if association.name == "parent"
+            lookups[:parent] = association.klass.all
+            lookups[:parent].unshift(association.klass.new(id: nil, name: 'N/A'))
           else
-            lookups[assoc.to_s.to_sym] = model_class(assoc).all
+            lookups[association.name.to_sym] = association.klass.all
           end
         end
 
