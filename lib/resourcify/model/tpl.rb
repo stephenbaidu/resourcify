@@ -36,7 +36,7 @@ module Model
             lookups[:parent] = model_class.all
             lookups[:parent].unshift(model_class.new(id: nil, name: 'N/A'))
           else
-            lookups[assoc.to_s.to_sym] = getmodel_class(assoc).all
+            lookups[assoc.to_s.to_sym] = model_class(assoc).all
           end
         end
 
