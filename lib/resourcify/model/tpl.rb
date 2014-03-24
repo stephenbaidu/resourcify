@@ -13,7 +13,7 @@ module Model
             f[:label]  = c.name[0, c.name.length - 3].titleize if c.name.ends_with?("_id")
             if foreign_keys[c.name] == 'children'
               f[:lookup] = :parent
-              f[:label]  = "Parent #{model.singularize.titleize}"
+              f[:label]  = "Parent #{self.model_class.name.singularize.titleize}"
             end
           end
           fields.push f
