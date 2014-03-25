@@ -13,7 +13,7 @@ module Model
             f[:label]  = c.name[0, c.name.length - 3].titleize if c.name.ends_with?("_id")
             if foreign_keys[c.name] == 'children'
               f[:lookup] = :parent
-              f[:label]  = "Parent #{self.model_class.name.singularize.titleize}"
+              f[:label]  = "Parent #{self.model_class.name.split('::').last.singularize.titleize}"
             end
           end
           fields.push f
@@ -31,11 +31,11 @@ module Model
 
         lookups = {}
         model_class.reflect_on_all_associations(:belongs_to).each do |association|
-          if association.name == "parent"
-            lookups[:parent] = association.klass.all
-            lookups[:parent].unshift(association.klass.new(id: nil, name: 'N/A'))
+          if association.name == :parent
+            lookups[association.name] = association.klass.all
+            lookups[association.name].unshift(association.klass.new(id: nil, name: 'N/A'))
           else
-            lookups[association.name.to_sym] = association.klass.all.map { |e| {id: e.id, name: e.name} }
+            lookups[association.name] = association.klass.all.map { |e| {id: e.id, name: e.name} }
           end
         end
 
