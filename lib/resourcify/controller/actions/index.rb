@@ -3,7 +3,9 @@ module Controller::Actions
     def index
       authorize _RC.new
 
-      recs = policy_scope(_RC.all)
+      # recs = policy_scope(_RC.all)
+      recs = policy_scope(_RC.includes(belongs_tos))
+      # recs = policy_scope(_RC.includes([]).all)
 
       # apply resourcify_filter if present and query param is also present
       if recs.respond_to? "resourcify_filter" and params[:query].present?

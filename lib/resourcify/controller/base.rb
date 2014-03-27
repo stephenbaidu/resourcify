@@ -52,7 +52,11 @@ module Controller
 
       # Use callbacks to share common setup or constraints between actions.
       def set_record
-        @record = _RC.find(params[:id])
+        @record = _RC.includes(belongs_tos).find(params[:id])
+      end
+
+      def belongs_tos
+        _RC.reflect_on_all_associations(:belongs_to).map {|e| e.name }
       end
 
       # Only allow a trusted parameter "white list" through.
