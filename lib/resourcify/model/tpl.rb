@@ -31,12 +31,15 @@ module Model
 
         lookups = {}
         model_class.reflect_on_all_associations(:belongs_to).each do |association|
-          if association.name == :parent
-            lookups[association.name] = association.klass.all
-            lookups[association.name].unshift(association.klass.new(id: nil, name: 'N/A'))
-          else
-            lookups[association.name] = association.klass.all.map { |e| {id: e.id, name: e.name} }
-          end
+          lookups[association.name] = association.klass.all.map { |e| {id: e.id, name: e.name} }
+          lookups[association.name].unshift({ id: nil, name: '' })
+
+          # if association.name == :parent
+          #   lookups[association.name] = association.klass.all
+          #   lookups[association.name].unshift(association.klass.new(id: nil, name: 'N/A'))
+          # else
+          #   lookups[association.name] = association.klass.all.map { |e| {id: e.id, name: e.name} }
+          # end
         end
 
         lookups
