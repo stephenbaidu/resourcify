@@ -28,7 +28,7 @@ module Resourcify
           send :extend,  Model::PolicyClass
 
           # Include filter_by
-          send :extend,  Model::ResourcifyFilter
+          send :extend,  Model::FilterBy
 
           # Include instance methods
           send :include, ModelInstanceMethods
