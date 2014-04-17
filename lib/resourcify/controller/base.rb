@@ -1,49 +1,30 @@
 module Controller
   module Base
-    require 'active_record/serializer_override'
-    ActiveRecord::Base.send(:include, ActiveRecord::SerializerOverride)
 
     include Pundit
 
     private
-      # Set JSON response data
-      def set_response_data
-        @response_data = { 
-          success: false,
-          data: { total: 0, rows: [] },
-          error: { type: '', errors: {}, messages: [] } 
+      # Set error response data
+      def set_error
+        @error = {
+          error: true,
+          type: 'Error',
+          message: 'Sorry, an error occurred.'
         }
-        # raise Resourcify::UndefinedError unless _RC.respond_to? 'resourcified?'
       end
    
-      # def resource_not_resourcified
-      #   @response_data[:success] = false
-      #   @response_data[:error]   = { 
-      #     type: 'resource_not_resourcified',
-      #     messages: [ 'Resourcify::UndefinedError. Resource route not defined' ]
-      #   }
-        
-      #   render json: @response_data
-      # end
-   
       def record_not_found
-        @response_data[:success] = false
-        @response_data[:error]   = { 
-          type: 'record_not_found',
-          messages: [ 'Sorry, the record was not found.' ]
-        }
+        @error[:type]    = 'RecordNotFound'
+        @error[:message] = 'Sorry, the record was not found.'
         
-        render json: @response_data
+        render json: @error
       end
    
       def user_not_authorized
-        @response_data[:success] = false
-        @response_data[:error]   = { 
-          type: 'user_not_authorized',
-          messages: [ 'Sorry, you do not have the permission.' ]
-        }
+        @error[:type]    = 'UserNotAuthorized'
+        @error[:message] = 'Sorry, you do not have the permission.'
         
-        render json: @response_data
+        render json: @error
       end
 
       def _RC

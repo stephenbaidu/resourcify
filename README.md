@@ -1,6 +1,6 @@
 # Resourcify [![Gem Version](https://badge.fury.io/rb/resourcify.png)](http://badge.fury.io/rb/resourcify)
 
-Resourcify is a rails gem that helps to speed up development by giving you json api controllers that inherit all restful actions. It also makes your models easier to filter by adding a "resourcify_filter" method. This gem behaves as an "acts_as" gem by using ActiveSupport Concerns.
+Resourcify is a rails gem that helps to speed up development by giving you json api controllers that inherit all restful actions. It also makes your models easier to filter by adding a "filter_by" method. This gem behaves as an "acts_as" gem by using ActiveSupport Concerns.
 
 #### Caveat
 The resourcify gem currently depends on 
@@ -98,19 +98,19 @@ end
 This allows you to filter your models like this
 ```ruby
 # Post with title equal to 'My First Post'
-Post.resourcify_filter("title::eq::My First Post")
+Post.filter_by('title' => 'My First Post')
 
 # Users with first_name like 'Jo'
-User.resourcify_filter("first_name::like::Jo")
+User.filter_by('first_name.like' => 'Jo')
 
 # The following parameters are allowed:
 # [eq(=), ne(!=), like(LIKE), lt(<), gt(>), lte(<=), gte(>=), in(IN [items]), nin(NOT IN [items])]
-User.resourcify_filter("first_name::like::Jo;;last_name::eq::Doe")
-User.resourcify_filter("age::gt::37")
-User.resourcify_filter("age::gte::21;;age::lte::35")
+User.filter_by('first_name.like' => 'Jo', 'last_name.eq' => 'Doe')
+User.filter_by('age.gt' => 37)
+User.filter_by('age.gte' => 21, 'age.lte' => 35)
 
 # Users with age in [25, 26, 52, 62] 
-User.resourcify_filter("age::in::25,26,52,62")
+User.filter_by('age.in' => '25,26,52,62')
 ```
 
 Each model with  "resourcify" has a "policy_class" method which returns "ApiPolicy" that can be used by a generic api controller when using Pundit. This was added since the gem is currently tied with Pundit but will later be made optional.

@@ -2,11 +2,8 @@ module Controller::Actions
   module Show
     def show
       authorize @record
-
-      @response_data[:success] = true
-      @response_data[:data]    = @record
-
-      render json: @response_data
+      
+      render json: @record
     end
   end
 end

@@ -3,30 +3,20 @@ module Controller::Actions
     def index
       authorize _RC.new
 
-      # recs = policy_scope(_RC.all)
-      recs = policy_scope(_RC.includes(belongs_tos))
-      # recs = policy_scope(_RC.includes([]).all)
+      @records = policy_scope(_RC.includes(belongs_tos))
 
-      # apply resourcify_filter if present and query param is also present
-      if recs.respond_to? "resourcify_filter" and params[:query].present?
-        recs = recs.resourcify_filter(params[:query])
+      # apply filter_by if present
+      if @records.respond_to? "filter_by"
+        @records = @records.filter_by(params.except(:controller, :action, :page, :size))
       end
 
-      recs_total = recs.count
+      response.headers['_meta_total'] = @records.count.to_s
 
       page = params[:page] || 1
-      size = params[:size] || 25
-      recs = recs.offset((page.to_i - 1) * size.to_i).limit(size)
+      size = params[:size] || 20
+      @records = @records.offset((page.to_i - 1) * size.to_i).limit(size)
 
-      if recs
-        @response_data[:success] = true
-        @response_data[:data]    = {
-          total: recs_total,
-          rows:  recs
-        }
-      end
-
-      render json: @response_data
+      render json: @records
     end
   end
 end

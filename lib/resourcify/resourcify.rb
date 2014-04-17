@@ -1,6 +1,6 @@
-require "resourcify/model/resourcify_filter"
-require "resourcify/model/policy_class"
 require "resourcify/model/tpl"
+require "resourcify/model/filter_by"
+require "resourcify/model/policy_class"
 require "resourcify/controller/base"
 require "resourcify/controller/actions/index"
 require "resourcify/controller/actions/create"
@@ -21,15 +21,14 @@ module Resourcify
         def resourcified?() true end
         
         if self.ancestors.include?(ActiveRecord::Base)        # models
-          # Include filter and tag as filterable?
-          send :extend,  Model::ResourcifyFilter
-          def filterable?() true end
+          # Add tpl methods
+          send :extend,  Model::Tpl
 
           # Add policy_class method for pundit
           send :extend,  Model::PolicyClass
 
-          # Add tpl methods
-          send :extend,  Model::Tpl
+          # Include filter_by
+          send :extend,  Model::ResourcifyFilter
 
           # Include instance methods
           send :include, ModelInstanceMethods
@@ -40,14 +39,15 @@ module Resourcify
           # Respond to only json requests
           respond_to :json
           
-          # Set before_actions with methods located in base.rb
-          before_action :set_response_data
+          # Set error with set_error method located in base.rb
+          before_action :set_error
+
+          # Set record with set_record method located in base.rb
           before_action :set_record, only: [:show, :update, :destroy]
           
           # Set rescue_froms with methods located in base.rb
           rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
           rescue_from Pundit::NotAuthorizedError,   with: :user_not_authorized
-          # rescue_from UndefinedError, with: :resource_not_resourcified
 
           # Include base.rb with before_action filters & rescue_from methods
           send :include, Controller::Base
