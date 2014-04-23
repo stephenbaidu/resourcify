@@ -3,9 +3,7 @@
 Resourcify is a rails gem that helps to speed up development by giving you json api controllers that inherit all restful actions. It also makes your models easier to filter by adding a "filter_by" method. This gem behaves as an "acts_as" gem by using ActiveSupport Concerns.
 
 #### Caveat
-The resourcify gem currently depends on 
-* [ActiveModel::Serializers](https://github.com/rails-api/active_model_serializers)
-* [Pundit](https://github.com/elabs/pundit)
+The resourcify gem currently depends on [Pundit](https://github.com/elabs/pundit)
 
 ## Installation
 
