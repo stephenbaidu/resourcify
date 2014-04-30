@@ -59,7 +59,7 @@ You can override this by defining a custom method called "permitted_params" (or 
 
 ### Models
 
-Asuming you have the following models (Post, User) in your application.
+Assuming you have the following models (Post, User) in your application.
 
 ```ruby
 class Post < ActiveRecord::Base
