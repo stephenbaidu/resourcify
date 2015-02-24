@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name        = "resourcify"
   s.version     = Resourcify::VERSION
   s.authors     = ["Stephen Baidu"]
-  s.email       = ["stephen@axoninfosystems.com"]
-  s.homepage    = "http://www.baidus.net"
+  s.email       = ["stephenbaidu@gmail.com"]
+  s.homepage    = "https://github.com/stephenbaidu/resourcify"
   s.summary     = "Resourcify rails controllers and models"
   s.description = "Resourcify rails controllers and models"
 
