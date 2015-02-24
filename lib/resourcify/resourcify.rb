@@ -32,6 +32,19 @@ module Resourcify
 
           # Include instance methods
           send :include, ModelInstanceMethods
+
+          # Set options
+          cattr_accessor :resourcify_options
+          self.resourcify_options = options
+
+          options.each do |key, val|
+            cattr_accessor "resourcify_#{key.to_s}".to_sym
+            self.send("resourcify_#{key.to_s}=", val)
+
+            cattr_accessor "rfy_#{key.to_s}".to_sym
+            self.send("rfy_#{key.to_s}=", val)
+          end
+
         elsif self.ancestors.include?(ActionController::Base) # controllers
           # Turn off layout
           layout false
@@ -53,11 +66,25 @@ module Resourcify
           send :include, Controller::Base
 
           # Include RESTful actions
-          send :include, Controller::Actions::Index
-          send :include, Controller::Actions::Create
-          send :include, Controller::Actions::Show
-          send :include, Controller::Actions::Update
-          send :include, Controller::Actions::Destroy
+          if !options[:actions] || options[:actions].include?(:index)
+            send :include, Controller::Actions::Index
+          end
+
+          if !options[:actions] || options[:actions].include?(:create)
+            send :include, Controller::Actions::Create
+          end
+
+          if !options[:actions] || options[:actions].include?(:show)
+            send :include, Controller::Actions::Show
+          end
+
+          if !options[:actions] || options[:actions].include?(:update)
+            send :include, Controller::Actions::Update
+          end
+
+          if !options[:actions] || options[:actions].include?(:destroy)
+            send :include, Controller::Actions::Destroy
+          end
         end
       end
     end
