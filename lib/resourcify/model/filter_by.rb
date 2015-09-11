@@ -2,22 +2,37 @@ module Model
   module FilterBy
     def filter_by(filters = {})
       records = self
-      column_names = self.column_names
+      columns_hash = self.columns_hash
+
+      def sanitize_value(field, value)
+        field_type = columns_hash[field].type
+        if field_type == :datetime
+          value = Time.parse(value).to_s(:db)
+        elsif field_type == :date
+          value = Date.parse(value).to_s(:db)
+        end
+        value
+      end
       
       def query_params(q)
         ops = { eq: '=', lt: '<', gt: '>', lte: '<=', gte: '>=', ne: '!='}
         field, op, value = q[:name], (q[:op] || 'eq').to_sym, q[:value]
 
         if ops[op]
-          ["#{field} #{ops[op]} ?", value]
+          ["#{field} #{ops[op]} ?", sanitize_value(field, value)]
         elsif op == :in
-          ["#{field} IN (?)", value.split(',')]
+          vals = value.split(',')
+          vals = vals.map { |e| sanitize_value(field, e) }
+          ["#{field} IN (?)", vals]
         elsif op == :nin
-          ["#{field} NOT IN (?)", value.split(',')]
+          vals = value.split(',')
+          vals = vals.map { |e| sanitize_value(field, e) }
+          ["#{field} NOT IN (?)", vals]
         elsif op == :between
           vals = value.split('||')
           query_string = '(' + vals.map { |e| "(#{field} >= ? AND #{field} <= ?)" }.join(' OR ') + ')'
           vals = vals.map { |e| e.split('|') }.flatten
+          vals = vals.map { |e| sanitize_value(field, e) }
           vals.unshift(query_string)
           vals
         elsif op == :like
@@ -27,7 +42,7 @@ module Model
           vals.unshift(query_string)
           vals
         else
-          ["#{field} = ?", value]
+          ["#{field} = ?", sanitize_value(field, value)]
         end
       end
 
@@ -37,7 +52,7 @@ module Model
       end.group_by do |q|
         q[:name]
       end.select do |key|
-        column_names.include? key
+        columns_hash.include? key
       end.map do |key, value|
         qparams = value.map { |e| query_params(e) }
         qstring = qparams.map { |e| e.first }.join(' OR ')
