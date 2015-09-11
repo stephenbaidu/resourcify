@@ -6,10 +6,8 @@ module Model
 
       def sanitize_value(field, value)
         field_type = columns_hash[field].type
-        if field_type == :datetime
+        if field_type == :datetime || field_type == :date
           value = Time.parse(value).to_s(:db)
-        elsif field_type == :date
-          value = Date.parse(value).to_s(:db)
         end
         value
       end
