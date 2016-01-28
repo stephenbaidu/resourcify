@@ -17,7 +17,7 @@ module Controller
         @error[:type]    = 'RecordNotFound'
         @error[:message] = 'Sorry, the record was not found.'
         
-        render json: @error
+        render json: @error, status: 404
       end
    
       def user_not_authorized
