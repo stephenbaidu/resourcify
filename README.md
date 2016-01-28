@@ -12,7 +12,7 @@ The resourcify gem currently depends on [Pundit](https://github.com/elabs/pundit
 Include the gem in your Gemfile:
 
 ```ruby
-gem 'resourcify'
+gem 'resourcify', '0.1.4'
 ```
 
 ## Usage
@@ -30,6 +30,14 @@ Usage with controllers is very easy. Just add "resourcify" to your controller an
 class PostsController < ApplicationController
   # Include the resourcify module
   resourcify
+  
+end
+```
+```ruby
+class PostsController < ApplicationController
+  # Include the resourcify module with preferred actions as an array
+  # Valid actions are: :index, :create, :show, :udpate, :destroy
+  resourcify actions: [:index, :show]
   
 end
 ```
