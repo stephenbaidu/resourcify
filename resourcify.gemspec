@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Stephen Baidu"]
   s.email       = ["stephenbaidu@gmail.com"]
   s.homepage    = "https://github.com/stephenbaidu/resourcify"
+  s.license     = 'MIT'
   s.summary     = "Resourcify rails controllers and models"
   s.description = "Resourcify rails controllers and models"
 
