@@ -24,7 +24,7 @@ module Controller
         @error[:type]    = 'UserNotAuthorized'
         @error[:message] = 'Sorry, you do not have the permission.'
         
-        render json: @error
+        render json: @error, status: 403
       end
 
       def _RC
