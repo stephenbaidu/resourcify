@@ -36,7 +36,7 @@ end
 ```ruby
 class PostsController < ApplicationController
   # Include the resourcify module with preferred actions as an array
-  # Valid actions are: :index, :create, :show, :udpate, :destroy
+  # Valid actions are: :index, :create, :show, :update, :destroy
   resourcify actions: [:index, :show]
   
 end
